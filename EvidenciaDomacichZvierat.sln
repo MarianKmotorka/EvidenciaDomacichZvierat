@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvidenciaDomacichZvierat", "EvidenciaDomacichZvierat\EvidenciaDomacichZvierat.csproj", "{AB29C07C-23F9-4092-BBE3-55F8DABDB7F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB29C07C-23F9-4092-BBE3-55F8DABDB7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB29C07C-23F9-4092-BBE3-55F8DABDB7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB29C07C-23F9-4092-BBE3-55F8DABDB7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB29C07C-23F9-4092-BBE3-55F8DABDB7F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2766A4E-3E40-4106-9C66-D211EAAD1608}
+	EndGlobalSection
+EndGlobal
