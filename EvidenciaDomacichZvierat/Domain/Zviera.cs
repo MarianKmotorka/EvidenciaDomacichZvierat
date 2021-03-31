@@ -2,7 +2,7 @@
 
 namespace EvidenciaDomacichZvierat.Domain
 {
-    public class Zviera
+    public abstract class Zviera
     {
         public Zviera(string meno, DateTime datumNarodenia)
         {

@@ -7,5 +7,7 @@ namespace EvidenciaDomacichZvierat.Data
     public interface IMajitelRepository
     {
         Task<IEnumerable<Majitel>> GetAll();
+
+        Task<Majitel> GetById(int id);
     }
 }

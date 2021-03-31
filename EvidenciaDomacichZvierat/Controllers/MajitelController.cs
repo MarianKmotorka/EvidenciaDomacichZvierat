@@ -13,5 +13,12 @@ namespace EvidenciaDomacichZvierat.Controllers
             var response = await Mediator.Send(new GetMajitelList.Query());
             return Ok(response);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var response = await Mediator.Send(new GetMajitelDetail.Query { Id = id });
+            return Ok(response);
+        }
     }
 }

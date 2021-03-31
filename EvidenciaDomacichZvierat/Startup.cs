@@ -40,7 +40,6 @@ namespace EvidenciaDomacichZvierat
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 

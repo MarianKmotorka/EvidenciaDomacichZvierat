@@ -4,7 +4,7 @@ namespace EvidenciaDomacichZvierat.Domain
 {
     public class Pes : Zviera
     {
-        public Pes(string meno, DateTime datumNarodenia, int predpokladanyVzrast, byte urovenVycviku) : base(meno, datumNarodenia)
+        public Pes(string meno, DateTime datumNarodenia, int predpokladanyVzrast, int urovenVycviku) : base(meno, datumNarodenia)
         {
             SetUrovenVycviku(urovenVycviku);
             SetPredpokladanyVzrastCm(predpokladanyVzrast);
@@ -20,11 +20,11 @@ namespace EvidenciaDomacichZvierat.Domain
             UrovenVycviku = 1;
         }
 
-        public byte UrovenVycviku { get; private set; }
+        public int UrovenVycviku { get; private set; }
 
         public int PredpokladanyVzrastCm { get; private set; }
 
-        public void SetUrovenVycviku(byte value)
+        public void SetUrovenVycviku(int value)
         {
             if (value < 1 || value > 10)
                 throw new ArgumentException("UrovenVycviku musi byt od 1 do 10.");
