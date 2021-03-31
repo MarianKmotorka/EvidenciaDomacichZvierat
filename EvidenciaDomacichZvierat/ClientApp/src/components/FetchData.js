@@ -18,18 +18,15 @@ export class FetchData extends Component {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
           {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+            <tr key={forecast}>
+              <td>{forecast.meno}</td>
+              <td>{forecast.priezvisko}</td>
+              
             </tr>
           )}
         </tbody>
@@ -52,7 +49,7 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    const response = await fetch('weatherforecast');
+    const response = await fetch('api/majitel');
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }
