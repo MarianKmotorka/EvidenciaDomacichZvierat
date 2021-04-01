@@ -1,12 +1,10 @@
-import { createMuiTheme} from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core'
+import { Palette } from '@material-ui/core/styles/createPalette'
 
-const theme= createMuiTheme({
-    
-
-
-
-
-    
-})
+const theme = createMuiTheme({})
 
 export default theme
+
+declare module 'styled-components' {
+  export interface DefaultTheme extends Palette {}
+}
