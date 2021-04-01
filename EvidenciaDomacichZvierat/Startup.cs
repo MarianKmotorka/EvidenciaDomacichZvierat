@@ -1,5 +1,6 @@
 using System.Reflection;
 using EvidenciaDomacichZvierat.Data;
+using Fiesta.WebApi.Middleware.ExceptionHanlding;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,8 @@ namespace EvidenciaDomacichZvierat
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseExceptionHandlingMiddleware();
 
             app.UseRouting();
 

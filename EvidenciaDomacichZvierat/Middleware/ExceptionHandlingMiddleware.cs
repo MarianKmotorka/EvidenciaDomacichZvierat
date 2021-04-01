@@ -67,7 +67,7 @@ namespace Fiesta.WebApi.Middleware.ExceptionHanlding
 
     public static class ExceptionHandlingMiddlewareExtensions
     {
-        public static IApplicationBuilder UseFiestaExceptionHandlingMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseExceptionHandlingMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ExceptionHandlingMiddleware>();
         }
