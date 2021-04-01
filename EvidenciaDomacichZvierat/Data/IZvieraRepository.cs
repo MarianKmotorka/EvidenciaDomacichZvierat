@@ -4,12 +4,10 @@ using EvidenciaDomacichZvierat.Domain;
 
 namespace EvidenciaDomacichZvierat.Data
 {
-    public interface IMajitelRepository
+    public interface IZvieraRepository
     {
-        Task<IEnumerable<Majitel>> GetAll();
+        Task Add(Zviera zviera);
 
-        Task<Majitel> GetById(int id);
-
-        Task Add(Majitel majitel);
+        Task<List<Zviera>> GetAll();
     }
 }

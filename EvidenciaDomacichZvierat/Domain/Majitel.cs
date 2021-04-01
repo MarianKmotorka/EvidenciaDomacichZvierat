@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EvidenciaDomacichZvierat.Domain
@@ -11,17 +12,20 @@ namespace EvidenciaDomacichZvierat.Domain
 
         public string Priezvisko { get; private set; }
 
-        public List<Zviera> Zvierata { get; set; }
+        public DateTime DatumNarodenia { get; private set; }
+
+        public List<Zviera> Zvierata { get; private set; }
 
         public List<Pes> Psy => Zvierata.OfType<Pes>().ToList();
 
         public List<Macka> Macky => Zvierata.OfType<Macka>().ToList();
 
-        public Majitel(string meno, string priezvisko)
+        public Majitel(string meno, string priezvisko, DateTime datumNarodenia)
         {
             Meno = meno;
             Priezvisko = priezvisko;
             Zvierata = new();
+            DatumNarodenia = datumNarodenia;
         }
     }
 }

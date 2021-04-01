@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using EvidenciaDomacichZvierat.Domain;
 using Microsoft.Extensions.Configuration;
@@ -21,14 +22,14 @@ namespace EvidenciaDomacichZvierat.Data
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = new SqlCommand("SELECT Id,Meno,Priezvisko from dbo.Majitel", connection);
+            var command = new SqlCommand("SELECT Id,Meno,Priezvisko,DatumNarodenia from dbo.Majitel", connection);
             var reader = await command.ExecuteReaderAsync();
 
             var result = new List<Majitel>();
 
             while (await reader.ReadAsync())
             {
-                result.Add(new Majitel(reader.GetString(1), reader.GetString(2))
+                result.Add(new Majitel(reader.GetString(1), reader.GetString(2), reader.GetDateTime(3))
                 {
                     Id = reader.GetInt32(0)
                 });
@@ -42,7 +43,7 @@ namespace EvidenciaDomacichZvierat.Data
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var sql = "SELECT Id,Meno,Priezvisko from dbo.Majitel WHERE Id = @Id";
+            var sql = "SELECT Id,Meno,Priezvisko,DatumNarodenia from dbo.Majitel WHERE Id = @Id";
             var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
@@ -54,9 +55,44 @@ namespace EvidenciaDomacichZvierat.Data
 
             await reader.ReadAsync();
 
-            var majitel = new Majitel(reader.GetString(1), reader.GetString(2)) { Id = reader.GetInt32(0) };
+            var majitel = new Majitel(reader.GetString(1), reader.GetString(2), reader.GetDateTime(3)) { Id = reader.GetInt32(0) };
             await FillZvierata(majitel, connection);
             return majitel;
+        }
+
+        public async Task Add(Majitel majitel)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var insertSql = "INSERT INTO dbo.Majitel(Meno,Priezvisko,DatumNarodenia) VALUES (@Meno, @Priezvisko, @DatumNarodenia); SELECT SCOPE_IDENTITY();";
+
+            var command = new SqlCommand(insertSql, connection);
+            var transaction = connection.BeginTransaction("AddMajitel");
+
+            command.Transaction = transaction;
+            command.Parameters.AddWithValue("@Meno", majitel.Meno);
+            command.Parameters.AddWithValue("@Priezvisko", majitel.Priezvisko);
+            command.Parameters.AddWithValue("@DatumNarodenia", majitel.DatumNarodenia);
+            var majitelId = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+            foreach (var zviera in majitel.Zvierata.Where(x => x.Id != default))
+            {
+                await CreateMajitelZvieraRelation(command, majitelId, zviera.Id);
+            }
+
+            await transaction.CommitAsync();
+        }
+
+        private async Task CreateMajitelZvieraRelation(SqlCommand command, int majitelId, int zvieraId)
+        {
+            command.CommandText = "INSERT INTO dbo.MajitelZviera(MajitelId, ZvieraId) VALUES(@MajitelId, @ZvieraId)";
+
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@MajitelId", majitelId);
+            command.Parameters.AddWithValue("@ZvieraId", zvieraId);
+
+            await command.ExecuteNonQueryAsync();
         }
 
         private async Task FillZvierata(Majitel majitel, SqlConnection connection)

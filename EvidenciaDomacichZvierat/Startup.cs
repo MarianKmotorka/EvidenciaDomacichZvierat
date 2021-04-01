@@ -26,6 +26,7 @@ namespace EvidenciaDomacichZvierat
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IMajitelRepository, MajitelRepository>();
+            services.AddScoped<IZvieraRepository, ZvieraRepository>();
 
             services.AddSpaStaticFiles(configuration =>
             {
