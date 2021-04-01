@@ -1,10 +1,22 @@
+import { AppBar, Box, Button, Container, CssBaseline, Typography } from '@material-ui/core'
+import { Route, Switch } from 'react-router'
+import Navbar from './components/Navbar'
+import MajitelDetail from './pages/MajitelDetail'
+import MajitelList from './pages/Majitelia'
 
 function App() {
   return (
-    <div >
-      APP
-    </div>
-  );
+    <>
+      <CssBaseline />
+
+      <Navbar />
+
+      <Switch>
+        <Route path='/majitelia/:id' component={MajitelDetail} />
+        <Route path='/' component={MajitelList} />
+      </Switch>
+    </>
+  )
 }
 
-export default App;
+export default App
