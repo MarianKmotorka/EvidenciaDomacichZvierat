@@ -22,7 +22,7 @@ namespace EvidenciaDomacichZvierat.Data
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = new SqlCommand("SELECT Id,Meno,Priezvisko,DatumNarodenia from dbo.Majitel", connection);
+            var command = new SqlCommand("SELECT Id,Meno,Priezvisko,DatumNarodenia FROM dbo.Majitel", connection);
             var reader = await command.ExecuteReaderAsync();
 
             var result = new List<Majitel>();
@@ -36,6 +36,24 @@ namespace EvidenciaDomacichZvierat.Data
             }
 
             return result;
+        }
+
+        public async Task<double> GetPriemernyVekZvierata(int majitelId)
+        {
+            var sql = @"select AVG( Cast( Datediff(""yyyy"", z.DatumNarodenia, getdate()) as Float) ) FROM Zviera z 
+                        JOIN MajitelZviera mz ON mz.ZvieraId = z.Id
+                        WHERE mz.MajitelId = @MajitelId";
+
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@MajitelId", majitelId);
+
+            var reader = await command.ExecuteReaderAsync();
+            await reader.ReadAsync();
+
+            return reader.GetDouble(0);
         }
 
         public async Task<Majitel> GetById(int id)
@@ -74,6 +92,7 @@ namespace EvidenciaDomacichZvierat.Data
             command.Parameters.AddWithValue("@Meno", majitel.Meno);
             command.Parameters.AddWithValue("@Priezvisko", majitel.Priezvisko);
             command.Parameters.AddWithValue("@DatumNarodenia", majitel.DatumNarodenia);
+
             var majitelId = Convert.ToInt32(await command.ExecuteScalarAsync());
 
             foreach (var zviera in majitel.Zvierata.Where(x => x.Id != default))
@@ -97,7 +116,7 @@ namespace EvidenciaDomacichZvierat.Data
 
         private async Task FillZvierata(Majitel majitel, SqlConnection connection)
         {
-            var sql = @"SELECT Discriminator,z.Id,z.Meno,PocetKrmeni,DatumNarodenia,UrovenVycviku,PredpokladanyVzrast,ChytaMysi
+            var sql = @"SELECT Discriminator,z.Id,z.Meno,PocetKrmeni,z.DatumNarodenia,UrovenVycviku,PredpokladanyVzrast,ChytaMysi
                         FROM dbo.Zviera z JOIN dbo.MajitelZviera mz ON z.Id=mz.ZvieraId JOIN dbo.Majitel m ON m.Id=mz.MajitelId 
                         WHERE m.Id=@MajitelId";
 

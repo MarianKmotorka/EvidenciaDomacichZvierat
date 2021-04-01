@@ -54,19 +54,19 @@ namespace EvidenciaDomacichZvierat.Features.System
                      new Macka("Macka2", new DateTime(2009,8,11)),
                      new Macka("Macka3", new DateTime(2020,5,7)),
                      new Macka("Macka4", new DateTime(2020,5,7),true),
-                     new Macka("Macka5", new DateTime(2020,5,7)),
-                     new Macka("Macka6", new DateTime(2020,5,7),true),
+                     new Macka("Macka5", new DateTime(2016,5,7)),
+                     new Macka("Macka6", new DateTime(2011,5,7),true),
 
                      new Pes("Boby",new DateTime(2020,5,7),100,4),
                      new Pes("Bruno",new DateTime(2020,5,7),100,1),
                      new Pes("Dalman",new DateTime(2020,5,7),100,6),
                      new Pes("Denis",new DateTime(2020,5,7),100,9),
-                     new Pes("Bodro",new DateTime(2020,5,7),100,10),
-                     new Pes("Rocky",new DateTime(2020,5,7),100,1),
-                     new Pes("Aldo",new DateTime(2020,5,7),100,1),
-                     new Pes("PEs1",new DateTime(2020,5,7),100,3),
+                     new Pes("Bodro",new DateTime(2010,5,7),100,10),
+                     new Pes("Rocky",new DateTime(2000,5,7),100,1),
+                     new Pes("Aldo",new DateTime(1990,5,7),100,1),
+                     new Pes("PEs1",new DateTime(1999,5,7),100,3),
                      new Pes("PEs2",new DateTime(2020,5,7),100,3),
-                     new Pes("Pes3",new DateTime(2020,5,7),100,3),
+                     new Pes("Pes3",new DateTime(2020,8,7),100,3),
                 };
 
                 foreach (var zviera in zvierata)
@@ -75,16 +75,16 @@ namespace EvidenciaDomacichZvierat.Features.System
                 var zvierataDb = await _zvieraRepository.GetAll();
 
                 var boris = new Domain.Majitel("Boris", "Dlhy", new DateTime(1980, 4, 4));
-                var aneta = new Domain.Majitel("Aneta", "Uhlova", new DateTime(1980, 4, 4));
-                var katarina = new Domain.Majitel("Katarina", "Drobna", new DateTime(1980, 4, 4));
-                var stefan = new Domain.Majitel("Stefan", "Zierny", new DateTime(1980, 4, 4));
-                var tomas = new Domain.Majitel("Tomas", "Bledy", new DateTime(1980, 4, 4));
+                var aneta = new Domain.Majitel("Aneta", "Uhlova", new DateTime(1990, 11, 11));
+                var katarina = new Domain.Majitel("Katarina", "Drobna", new DateTime(1970, 4, 4));
+                var stefan = new Domain.Majitel("Stefan", "Zierny", new DateTime(1953, 5, 4));
+                var tomas = new Domain.Majitel("Tomas", "Bledy", new DateTime(2000, 4, 10));
 
-                boris.Zvierata.AddRange(new[] { zvierataDb[0], zvierataDb[1], zvierataDb[2], zvierataDb[3] });
-                aneta.Zvierata.AddRange(new[] { zvierataDb[2], zvierataDb[4], zvierataDb[6], zvierataDb[7], zvierataDb[10] });
-                katarina.Zvierata.AddRange(new[] { zvierataDb[5], zvierataDb[7], zvierataDb[8], zvierataDb[9], zvierataDb[1] });
-                stefan.Zvierata.AddRange(new[] { zvierataDb[10], zvierataDb[11], zvierataDb[12], zvierataDb[13] });
-                tomas.Zvierata.AddRange(new[] { zvierataDb[14], zvierataDb[15], zvierataDb[16], zvierataDb[17], zvierataDb[18], zvierataDb[19] });
+                boris.Zvierata.AddRange(new[] { zvierataDb[0], zvierataDb[10], zvierataDb[19], zvierataDb[3], zvierataDb[11], zvierataDb[14] });
+                aneta.Zvierata.AddRange(new[] { zvierataDb[2], zvierataDb[4], zvierataDb[6], zvierataDb[18] });
+                katarina.Zvierata.AddRange(new[] { zvierataDb[5], zvierataDb[7], zvierataDb[8], zvierataDb[9], zvierataDb[1], zvierataDb[15] });
+                stefan.Zvierata.AddRange(new[] { zvierataDb[1], zvierataDb[2], zvierataDb[12], zvierataDb[13] });
+                tomas.Zvierata.AddRange(new[] { zvierataDb[4], zvierataDb[3], zvierataDb[16], zvierataDb[17], zvierataDb[0], zvierataDb[19] });
 
                 await _majitelRepository.Add(boris);
                 await _majitelRepository.Add(aneta);

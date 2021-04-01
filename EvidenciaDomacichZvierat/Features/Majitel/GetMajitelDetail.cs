@@ -37,7 +37,8 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
                     Id = majitel.Id,
                     Meno = majitel.Meno,
                     Priezvisko = majitel.Priezvisko,
-                    Zvierata = new()
+                    Vek = DateTime.Now.Subtract(majitel.DatumNarodenia).Days / 365,
+                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvierata(majitel.Id)
                 };
 
                 majitel.Psy.ForEach(x => dto.Zvierata.Add(new MajitelDetailDto.ZvieraDto
@@ -74,7 +75,11 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
 
             public string Priezvisko { get; set; }
 
-            public List<ZvieraDto> Zvierata { get; set; }
+            public double PriemernyVekZvierat { get; set; }
+
+            public int Vek { get; set; }
+
+            public List<ZvieraDto> Zvierata { get; set; } = new();
 
             public class ZvieraDto
             {
