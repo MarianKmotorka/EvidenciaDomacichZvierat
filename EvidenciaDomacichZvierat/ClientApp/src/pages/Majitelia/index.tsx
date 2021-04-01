@@ -58,10 +58,12 @@ const MajitelList = () => {
       <List className={styles.root}>
         {majitelia.map(x => (
           <Box display='flex'>
-            <Checkbox
-              value={selectedIds.includes(x.id)}
-              onChange={(_, value) => handleSelected(value, x.id)}
-            />
+            <Box padding='5px'>
+              <Checkbox
+                value={selectedIds.includes(x.id)}
+                onChange={(_, value) => handleSelected(value, x.id)}
+              />
+            </Box>
 
             <Box width='100%'>
               <Link to={`/majitelia/${x.id}`}>
