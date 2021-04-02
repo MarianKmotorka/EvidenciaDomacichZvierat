@@ -22,10 +22,10 @@ const Pes = memo(({ data, onNakrmit }: IProps) => {
           <CardContent>
             <Box display='flex' alignItems='center' gridGap='10px'>
               <Pets color='primary' />
-              <p>Pes</p>
+              <h4>{data.meno}</h4>
             </Box>
 
-            <h4>{data.meno}</h4>
+            <p>(Pes)</p>
           </CardContent>
         </MenuItem>
       </Card>

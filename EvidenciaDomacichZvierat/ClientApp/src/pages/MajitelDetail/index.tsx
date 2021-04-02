@@ -57,7 +57,7 @@ const MajitelDetail = () => {
       </Box>
 
       <NameValueRow name='Vek' value={majitel.vek} />
-      <NameValueRow name='Priemerny vek zvierat' value={majitel.priemernyVekZvierat} />
+      <NameValueRow name='Priemerny vek zvierat' value={majitel.priemernyVekZvierat.toFixed(1)} />
 
       <Box marginY='30px'>
         <Grid container spacing={1}>

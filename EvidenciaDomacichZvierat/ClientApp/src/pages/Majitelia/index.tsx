@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core'
 
 import useFetch from '../../hooks/useFetch'
+import MajitelStatisticsDialog from '../../components/MajitelStatisticsDialog'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,6 +38,7 @@ interface IMajitel {
 const Majitelia = () => {
   const { data, loading, error } = useFetch<IMajitel[]>({ url: '/api/majitel' })
   const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const [statisticsOpen, setStatisticsOpen] = useState(false)
   const styles = useStyles()
 
   if (loading) return <CircularProgress color='secondary' />
@@ -84,10 +86,22 @@ const Majitelia = () => {
       </List>
 
       <Box display='flex' flexDirection='row-reverse' marginTop='30px'>
-        <Button variant='contained' color='secondary' disabled={!selectedIds.length}>
+        <Button
+          variant='contained'
+          color='secondary'
+          disabled={!selectedIds.length}
+          onClick={() => setStatisticsOpen(true)}
+        >
           Zobrazit informacie
         </Button>
       </Box>
+
+      {statisticsOpen && (
+        <MajitelStatisticsDialog
+          majitelIds={selectedIds}
+          onClose={() => setStatisticsOpen(false)}
+        />
+      )}
     </Container>
   )
 }

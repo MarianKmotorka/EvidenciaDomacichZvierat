@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using EvidenciaDomacichZvierat.Data.Helpers;
 using EvidenciaDomacichZvierat.Domain;
 using Microsoft.Extensions.Configuration;
 
@@ -28,32 +29,39 @@ namespace EvidenciaDomacichZvierat.Data
             var result = new List<Majitel>();
 
             while (await reader.ReadAsync())
-            {
-                result.Add(new Majitel(reader.GetString(1), reader.GetString(2), reader.GetDateTime(3))
-                {
-                    Id = reader.GetInt32(0)
-                });
-            }
+                result.Add(reader.ParseMajitel());
 
             return result;
         }
 
-        public async Task<double> GetPriemernyVekZvierata(int majitelId)
+        public async Task<double> GetPriemernyVekZvieratNaMajitela(params int[] majitelIds)
         {
-            var sql = @"select AVG( Cast( Datediff(""yyyy"", z.DatumNarodenia, getdate()) as Float) ) FROM Zviera z 
-                        JOIN MajitelZviera mz ON mz.ZvieraId = z.Id
-                        WHERE mz.MajitelId = @MajitelId";
+            var sqlTemplate = @"SELECT AVG(Cast(Datediff(""yyyy"", z.DatumNarodenia, getdate()) as Float)) FROM Zviera z 
+                                JOIN MajitelZviera mz ON mz.ZvieraId = z.Id
+                                WHERE mz.MajitelId IN ({0})";
 
-            using var connection = new SqlConnection(_connectionString);
-            await connection.OpenAsync();
+            return await SelectFirstValueWhereIn<double>(sqlTemplate, majitelIds);
+        }
 
-            var command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@MajitelId", majitelId);
+        public async Task<double> GetPriemernyPocetZvieratNaMajitela(params int[] majitelIds)
+        {
+            var sqlTemplate = @"SELECT AVG(Cast(pocet as Float)) FROM (
+	                                SELECT COUNT(*) as pocet FROM Zviera z
+	                                JOIN MajitelZviera mz ON mz.ZvieraId=z.Id
+	                                GROUP BY mz.MajitelId
+	                                HAVING mz.MajitelId IN ({0})
+	                            ) as pocty";
 
-            var reader = await command.ExecuteReaderAsync();
-            await reader.ReadAsync();
+            return await SelectFirstValueWhereIn<double>(sqlTemplate, majitelIds);
+        }
 
-            return reader.GetDouble(0);
+        public async Task<double> GetPocetZvieratOdMajitelov(params int[] majitelIds)
+        {
+            var sqlTemplate = @"SELECT COUNT(DISTINCT(z.Id)) as PocetZvierat FROM Zviera z
+                                JOIN MajitelZviera mz ON mz.ZvieraId=z.Id
+                                WHERE mz.MajitelId IN ({0})";
+
+            return await SelectFirstValueWhereIn<int>(sqlTemplate, majitelIds);
         }
 
         public async Task<Majitel> GetById(int id)
@@ -67,13 +75,12 @@ namespace EvidenciaDomacichZvierat.Data
 
             var reader = await command.ExecuteReaderAsync();
 
-
             if (!reader.HasRows)
                 return null;
 
             await reader.ReadAsync();
+            var majitel = reader.ParseMajitel();
 
-            var majitel = new Majitel(reader.GetString(1), reader.GetString(2), reader.GetDateTime(3)) { Id = reader.GetInt32(0) };
             await FillZvierata(majitel, connection);
             return majitel;
         }
@@ -103,6 +110,20 @@ namespace EvidenciaDomacichZvierat.Data
             await transaction.CommitAsync();
         }
 
+        private async Task<T> SelectFirstValueWhereIn<T>(string sqlTemplate, int[] ids)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = SqlWhereInParamBuilder.BuildWhereInClause(sqlTemplate, "Param", ids);
+            var command = new SqlCommand(sql, connection);
+            command.AddParamsToCommand("Param", ids);
+
+            using var reader = await command.ExecuteReaderAsync();
+            await reader.ReadAsync();
+            return (T)reader.GetValue(0);
+        }
+
         private async Task CreateMajitelZvieraRelation(SqlCommand command, int majitelId, int zvieraId)
         {
             command.CommandText = "INSERT INTO dbo.MajitelZviera(MajitelId, ZvieraId) VALUES(@MajitelId, @ZvieraId)";
@@ -127,20 +148,7 @@ namespace EvidenciaDomacichZvierat.Data
             var reader = await command.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
-            {
-                var discriminator = reader.GetString(0);
-                Zviera zviera = null;
-
-                zviera = discriminator switch
-                {
-                    nameof(Pes) => new Pes(reader.GetString(2), reader.GetDateTime(4), reader.GetInt32(6), reader.GetInt32(5)) { Id = reader.GetInt32(1) },
-                    nameof(Macka) => new Macka(reader.GetString(2), reader.GetDateTime(4), reader.GetBoolean(7)) { Id = reader.GetInt32(1) },
-                    _ => throw new NotSupportedException($"dbo.Zviera.Discriminator s hodnotou ${discriminator} nie je podporovany."),
-                };
-
-                zviera.SetPocetKrmeni(reader.GetInt32(3));
-                majitel.Zvierata.Add(zviera);
-            }
+                majitel.Zvierata.Add(reader.ParseZviera());
         }
     }
 }

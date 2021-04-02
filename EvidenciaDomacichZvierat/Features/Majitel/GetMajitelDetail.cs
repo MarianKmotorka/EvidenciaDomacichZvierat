@@ -39,7 +39,7 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
                     Meno = majitel.Meno,
                     Priezvisko = majitel.Priezvisko,
                     Vek = DateTime.Now.Subtract(majitel.DatumNarodenia).Days / 365,
-                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvierata(majitel.Id)
+                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvieratNaMajitela(majitel.Id)
                 };
 
                 foreach (var zviera in majitel.Zvierata)

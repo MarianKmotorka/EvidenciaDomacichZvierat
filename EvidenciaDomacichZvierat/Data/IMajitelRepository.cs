@@ -12,6 +12,10 @@ namespace EvidenciaDomacichZvierat.Data
 
         Task Add(Majitel majitel);
 
-        Task<double> GetPriemernyVekZvierata(int majitelId);
+        Task<double> GetPriemernyVekZvieratNaMajitela(params int[] majitelIds);
+
+        Task<double> GetPriemernyPocetZvieratNaMajitela(params int[] majitelIds);
+
+        Task<double> GetPocetZvieratOdMajitelov(params int[] majitelIds);
     }
 }
