@@ -80,10 +80,10 @@ namespace EvidenciaDomacichZvierat.Features.System
                 var stefan = new Domain.Majitel("Stefan", "Zierny", new DateTime(1953, 5, 4));
                 var tomas = new Domain.Majitel("Tomas", "Bledy", new DateTime(2000, 4, 10));
 
-                boris.Zvierata.AddRange(new[] { zvierataDb[0], zvierataDb[10], zvierataDb[19], zvierataDb[3], zvierataDb[11], zvierataDb[14] });
-                aneta.Zvierata.AddRange(new[] { zvierataDb[2], zvierataDb[4], zvierataDb[6], zvierataDb[18] });
+                boris.Zvierata.AddRange(new[] { zvierataDb[0], zvierataDb[10], zvierataDb[19], zvierataDb[3], zvierataDb[11], zvierataDb[14], zvierataDb[18] });
+                aneta.Zvierata.AddRange(new[] { zvierataDb[2], zvierataDb[4], zvierataDb[6] });
                 katarina.Zvierata.AddRange(new[] { zvierataDb[5], zvierataDb[7], zvierataDb[8], zvierataDb[9], zvierataDb[1], zvierataDb[15] });
-                stefan.Zvierata.AddRange(new[] { zvierataDb[1], zvierataDb[2], zvierataDb[12], zvierataDb[13] });
+                stefan.Zvierata.AddRange(new[] { zvierataDb[1], zvierataDb[2], zvierataDb[12], zvierataDb[13], zvierataDb[0] });
                 tomas.Zvierata.AddRange(new[] { zvierataDb[4], zvierataDb[3], zvierataDb[16], zvierataDb[17], zvierataDb[0], zvierataDb[19] });
 
                 await _majitelRepository.Add(boris);
