@@ -118,7 +118,8 @@ namespace EvidenciaDomacichZvierat.Data
         {
             var sql = @"SELECT Discriminator,z.Id,z.Meno,PocetKrmeni,z.DatumNarodenia,UrovenVycviku,PredpokladanyVzrast,ChytaMysi
                         FROM dbo.Zviera z JOIN dbo.MajitelZviera mz ON z.Id=mz.ZvieraId JOIN dbo.Majitel m ON m.Id=mz.MajitelId 
-                        WHERE m.Id=@MajitelId";
+                        WHERE m.Id=@MajitelId
+                        ORDER BY z.Meno";
 
             var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@MajitelId", majitel.Id);
@@ -128,27 +129,17 @@ namespace EvidenciaDomacichZvierat.Data
             while (await reader.ReadAsync())
             {
                 var discriminator = reader.GetString(0);
+                Zviera zviera = null;
 
-                switch (discriminator)
+                zviera = discriminator switch
                 {
-                    case nameof(Pes):
-                        majitel.Zvierata.Add(new Pes(reader.GetString(2), reader.GetDateTime(4), reader.GetInt32(6), reader.GetInt32(5))
-                        {
-                            Id = reader.GetInt32(1),
-                        });
-                        break;
+                    nameof(Pes) => new Pes(reader.GetString(2), reader.GetDateTime(4), reader.GetInt32(6), reader.GetInt32(5)) { Id = reader.GetInt32(1) },
+                    nameof(Macka) => new Macka(reader.GetString(2), reader.GetDateTime(4), reader.GetBoolean(7)) { Id = reader.GetInt32(1) },
+                    _ => throw new NotSupportedException($"dbo.Zviera.Discriminator s hodnotou ${discriminator} nie je podporovany."),
+                };
 
-                    case nameof(Macka):
-                        majitel.Zvierata.Add(new Macka(reader.GetString(2), reader.GetDateTime(4), reader.GetBoolean(7))
-                        {
-                            Id = reader.GetInt32(1),
-                        });
-                        break;
-
-                    default:
-                        throw new NotSupportedException($"dbo.Zviera.Discriminator s hodnotou ${discriminator} nie je podporovany.");
-
-                }
+                zviera.SetPocetKrmeni(reader.GetInt32(3));
+                majitel.Zvierata.Add(zviera);
             }
         }
     }

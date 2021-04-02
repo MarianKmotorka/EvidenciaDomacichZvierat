@@ -1,25 +1,18 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Dialog,
-  MenuItem
-} from '@material-ui/core'
-import { Pets } from '@material-ui/icons'
+import { memo, useState } from 'react'
 import moment from 'moment'
-import { useState } from 'react'
+import { Fastfood, Pets } from '@material-ui/icons'
+import { Box, Button, Card, CardActions, CardContent, Dialog, MenuItem } from '@material-ui/core'
+
 import { IMacka } from '../../types'
 import NameValueRow from '../NameValueRow'
+import { getFormattedAge } from '../utils/utils'
 
 interface IProps {
   data: IMacka
+  onNakrmit: (zvieraId: number) => Promise<void>
 }
 
-const Macka = ({ data }: IProps) => {
+const Macka = memo(({ data, onNakrmit }: IProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -32,7 +25,7 @@ const Macka = ({ data }: IProps) => {
               <p>Macka</p>
             </Box>
 
-            <p>{data.meno}</p>
+            <h4>{data.meno}</h4>
           </CardContent>
         </MenuItem>
       </Card>
@@ -41,21 +34,29 @@ const Macka = ({ data }: IProps) => {
         <Box minWidth={400}>
           <CardContent>
             <NameValueRow name='Meno' value={data.meno} />
+            <NameValueRow name='Vek' value={getFormattedAge(data.datumNarodenia)} />
             <NameValueRow
               name='Datum narodenia'
-              value={moment(data.datumNarodenia).format('DD.MM.yyyy')}
+              value={moment(data.datumNarodenia).format('DD.MM.YYYY')}
             />
-            <NameValueRow name='Pocet krmeni' value={data.pocetKrmeni} />
             <NameValueRow name='Chyta mysi' value={data.chytaMysi ? 'Ano' : 'Nie'} />
+            <NameValueRow name='Pocet krmeni' value={data.pocetKrmeni} />
 
-            <Button variant='outlined' color='secondary'>
-              Nakrmit
-            </Button>
+            <CardActions>
+              <Button
+                variant='contained'
+                color='secondary'
+                onClick={() => onNakrmit(data.id)}
+                startIcon={<Fastfood />}
+              >
+                Nakrmit
+              </Button>
+            </CardActions>
           </CardContent>
         </Box>
       </Dialog>
     </>
   )
-}
+})
 
 export default Macka

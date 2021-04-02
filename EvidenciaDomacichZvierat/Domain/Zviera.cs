@@ -12,10 +12,18 @@ namespace EvidenciaDomacichZvierat.Domain
 
         public int Id { get; set; }
 
-        public string Meno { get; set; }
+        public string Meno { get; private set; }
 
-        public int PocetKrmeni { get; set; }
+        public int PocetKrmeni { get; private set; }
 
-        public DateTime DatumNarodenia { get; set; }
+        public DateTime DatumNarodenia { get; private set; }
+
+        public void SetPocetKrmeni(int pocet)
+        {
+            if (pocet < 0)
+                throw new InvalidOperationException("Pocet krmeni musi byt vacsi alebo rovny nule.");
+
+            PocetKrmeni = pocet;
+        }
     }
 }

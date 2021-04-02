@@ -43,30 +43,30 @@ namespace EvidenciaDomacichZvierat.Features.System
                 await CreateDatabase();
                 await CreateSchema();
 
-                var zvierata = new List<Zviera>()
+                var zvierata = new List<Domain.Zviera>()
                 {
-                     new Macka("Miki", new DateTime(2000,1,1)),
-                     new Macka("niki", new DateTime(2000,1,1),true),
-                     new Macka("muro", new DateTime(2010,2,4),true),
-                     new Macka("Bla", new DateTime(2000,6,6)),
-                     new Macka("Blahbla", new DateTime(1999,4,4)),
-                     new Macka("Macka1", new DateTime(2004,5,5),true),
-                     new Macka("Macka2", new DateTime(2009,8,11)),
-                     new Macka("Macka3", new DateTime(2020,5,7)),
-                     new Macka("Macka4", new DateTime(2020,5,7),true),
-                     new Macka("Macka5", new DateTime(2016,5,7)),
-                     new Macka("Macka6", new DateTime(2011,5,7),true),
+                     new Macka("Miki", new DateTime(2003,4,1)),
+                     new Macka("Niki", new DateTime(2002,1,1),true),
+                     new Macka("Muro", new DateTime(2010,2,4),true),
+                     new Macka("Bella", new DateTime(2010,6,6)),
+                     new Macka("Kitty", new DateTime(1999,4,4)),
+                     new Macka("Lilly", new DateTime(2004,5,5),true),
+                     new Macka("Charlie", new DateTime(2009,8,11)),
+                     new Macka("Milo", new DateTime(2020,5,7)),
+                     new Macka("Leo", new DateTime(2020,5,7),true),
+                     new Macka("Chuck", new DateTime(2016,5,7)),
+                     new Macka("Perry", new DateTime(2011,5,7),true),
 
-                     new Pes("Boby",new DateTime(2020,5,7),100,4),
-                     new Pes("Bruno",new DateTime(2020,5,7),100,1),
-                     new Pes("Dalman",new DateTime(2020,5,7),100,6),
-                     new Pes("Denis",new DateTime(2020,5,7),100,9),
-                     new Pes("Bodro",new DateTime(2010,5,7),100,10),
-                     new Pes("Rocky",new DateTime(2000,5,7),100,1),
-                     new Pes("Aldo",new DateTime(1990,5,7),100,1),
-                     new Pes("PEs1",new DateTime(1999,5,7),100,3),
-                     new Pes("PEs2",new DateTime(2020,5,7),100,3),
-                     new Pes("Pes3",new DateTime(2020,8,7),100,3),
+                     new Pes("Cooper",new DateTime(2010,5,7),100,4),
+                     new Pes("Daisy",new DateTime(2011,4,7),50,1),
+                     new Pes("Dalman",new DateTime(2019,5,10),20,6),
+                     new Pes("Denis",new DateTime(2018,10,7),90,9),
+                     new Pes("Bodro",new DateTime(2000,5,17),100,10),
+                     new Pes("Rocky",new DateTime(2011,5,7),44,1),
+                     new Pes("Aldo",new DateTime(1999,5,13),90,1),
+                     new Pes("Zuck",new DateTime(1998,5,5),100,3),
+                     new Pes("Yup",new DateTime(2014,5,7),100,3),
+                     new Pes("Dino",new DateTime(2012,8,7),100,3),
                 };
 
                 foreach (var zviera in zvierata)

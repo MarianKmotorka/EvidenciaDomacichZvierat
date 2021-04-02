@@ -6,7 +6,7 @@ export enum ZvieraEnum {
 export interface IMacka {
   id: number
   meno: string
-  datumNarodenia: Date
+  datumNarodenia: string
   pocetKrmeni: number
   chytaMysi: boolean
   type: ZvieraEnum.Macka
@@ -15,7 +15,7 @@ export interface IMacka {
 export interface IPes {
   id: number
   meno: string
-  datumNarodenia: Date
+  datumNarodenia: string
   pocetKrmeni: number
   urovenVycviku: number
   predpokladanyVzrastCm: number

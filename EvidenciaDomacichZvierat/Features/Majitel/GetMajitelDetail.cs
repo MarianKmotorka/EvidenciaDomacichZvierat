@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EvidenciaDomacichZvierat.Data;
+using EvidenciaDomacichZvierat.Domain;
 using EvidenciaDomacichZvierat.Exceptions;
 using MediatR;
+using static EvidenciaDomacichZvierat.Features.Majitel.GetMajitelDetail.MajitelDetailDto;
 
 namespace EvidenciaDomacichZvierat.Features.Majitel
 {
@@ -41,28 +42,33 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
                     PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvierata(majitel.Id)
                 };
 
-                majitel.Psy.ForEach(x => dto.Zvierata.Add(new MajitelDetailDto.ZvieraDto
+                foreach (var zviera in majitel.Zvierata)
                 {
-                    Id = x.Id,
-                    DatumNarodenia = x.DatumNarodenia,
-                    Meno = x.Meno,
-                    PocetKrmeni = x.PocetKrmeni,
-                    UrovenVycviku = x.UrovenVycviku,
-                    PredpokladanyVzrastCm = x.PredpokladanyVzrastCm,
-                    Type = MajitelDetailDto.ZvieraEnum.Pes
-                }));
+                    var type = (zviera as Pes) is null ? ZvieraEnum.Macka : ZvieraEnum.Pes;
 
-                majitel.Macky.ForEach(x => dto.Zvierata.Add(new MajitelDetailDto.ZvieraDto
-                {
-                    Id = x.Id,
-                    DatumNarodenia = x.DatumNarodenia,
-                    Meno = x.Meno,
-                    PocetKrmeni = x.PocetKrmeni,
-                    ChytaMysi = x.ChytaMysi,
-                    Type = MajitelDetailDto.ZvieraEnum.Macka
-                }));
+                    if (type == ZvieraEnum.Pes)
+                        dto.Zvierata.Add(new ZvieraDto
+                        {
+                            Id = zviera.Id,
+                            DatumNarodenia = zviera.DatumNarodenia,
+                            Meno = zviera.Meno,
+                            PocetKrmeni = zviera.PocetKrmeni,
+                            UrovenVycviku = ((Pes)zviera).UrovenVycviku,
+                            PredpokladanyVzrastCm = ((Pes)zviera).PredpokladanyVzrastCm,
+                            Type = type
+                        });
+                    else
+                        dto.Zvierata.Add(new ZvieraDto
+                        {
+                            Id = zviera.Id,
+                            DatumNarodenia = zviera.DatumNarodenia,
+                            Meno = zviera.Meno,
+                            PocetKrmeni = zviera.PocetKrmeni,
+                            ChytaMysi = ((Macka)zviera).ChytaMysi,
+                            Type = type
+                        });
+                }
 
-                dto.Zvierata.OrderBy(x => x.Meno);
                 return dto;
             }
         }

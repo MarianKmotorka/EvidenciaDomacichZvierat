@@ -9,5 +9,7 @@ namespace EvidenciaDomacichZvierat.Data
         Task Add(Zviera zviera);
 
         Task<List<Zviera>> GetAll();
+
+        Task Nakrmit(int id);
     }
 }

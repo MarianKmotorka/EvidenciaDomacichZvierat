@@ -1,19 +1,40 @@
-import { Avatar, Box, Button, CircularProgress, Container, Grid } from '@material-ui/core'
-import { KeyboardArrowLeft } from '@material-ui/icons'
+import { useCallback } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
-import Macka from '../../components/Macka'
-import NameValueRow from '../../components/NameValueRow'
+import { KeyboardArrowLeft } from '@material-ui/icons'
+import { Avatar, Box, Button, CircularProgress, Container, Grid } from '@material-ui/core'
+
 import Pes from '../../components/Pes'
+import Macka from '../../components/Macka'
 import useFetch from '../../hooks/useFetch'
+import NameValueRow from '../../components/NameValueRow'
 import { IMajitelDetail, ZvieraEnum } from '../../types'
 
 const MajitelDetail = () => {
   const { id } = useParams<{ id: string }>()
   const { data, loading, error, setData } = useFetch<IMajitelDetail>({ url: `/api/majitel/${id}` })
 
+  const handleNakrmit = useCallback(
+    async (zvieraId: number) => {
+      const response = await fetch(`/api/zviera/${zvieraId}/nakrmit`, { method: 'POST' })
+      if (!response.ok) return // Show error toast
+
+      setData(prev => {
+        if (!prev) return prev
+
+        const updated = prev.zvierata.map(x => {
+          if (x.id === zvieraId) return { ...x, pocetKrmeni: x.pocetKrmeni + 1 }
+          return x
+        })
+
+        return { ...prev, zvierata: [...updated] }
+      })
+    },
+    [setData]
+  )
+
   if (loading) return <CircularProgress color='secondary' />
-  if (error) return <h2>NOT FOUND</h2>
+  if (error) return <h2>Error</h2>
 
   const majitel = data!
 
@@ -42,7 +63,11 @@ const MajitelDetail = () => {
         <Grid container spacing={1}>
           {majitel.zvierata.map(x => (
             <Grid item key={x.id} xs={12} md={6}>
-              {x.type === ZvieraEnum.Pes ? <Pes data={x} /> : <Macka data={x} />}
+              {x.type === ZvieraEnum.Pes ? (
+                <Pes data={x} onNakrmit={handleNakrmit} />
+              ) : (
+                <Macka data={x} onNakrmit={handleNakrmit} />
+              )}
             </Grid>
           ))}
         </Grid>

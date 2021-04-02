@@ -81,5 +81,17 @@ namespace EvidenciaDomacichZvierat.Data
 
             return result;
         }
+
+        public async Task Nakrmit(int id)
+        {
+            var sql = "UPDATE Zviera SET PocetKrmeni = PocetKrmeni + 1 WHERE Id=@Id";
+
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@Id", id);
+            await command.ExecuteNonQueryAsync();
+        }
     }
 }

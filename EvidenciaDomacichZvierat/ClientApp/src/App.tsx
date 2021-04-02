@@ -1,8 +1,9 @@
-import { AppBar, Box, Button, Container, CssBaseline, Typography } from '@material-ui/core'
 import { Route, Switch } from 'react-router'
+import { CssBaseline } from '@material-ui/core'
+
 import Navbar from './components/Navbar'
+import Majitelia from './pages/Majitelia'
 import MajitelDetail from './pages/MajitelDetail'
-import MajitelList from './pages/Majitelia'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
 
       <Switch>
         <Route path='/majitelia/:id' component={MajitelDetail} />
-        <Route path='/' component={MajitelList} />
+        <Route path='/' component={Majitelia} />
       </Switch>
     </>
   )

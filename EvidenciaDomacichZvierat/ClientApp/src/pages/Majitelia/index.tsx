@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { KeyboardArrowRight } from '@material-ui/icons'
 import {
   Avatar,
   Box,
@@ -12,9 +15,7 @@ import {
   Theme,
   Typography
 } from '@material-ui/core'
-import { KeyboardArrowRight } from '@material-ui/icons'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+
 import useFetch from '../../hooks/useFetch'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,7 +34,7 @@ interface IMajitel {
   priezvisko: string
 }
 
-const MajitelList = () => {
+const Majitelia = () => {
   const { data, loading, error } = useFetch<IMajitel[]>({ url: '/api/majitel' })
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const styles = useStyles()
@@ -57,8 +58,8 @@ const MajitelList = () => {
 
       <List className={styles.root}>
         {majitelia.map(x => (
-          <Box display='flex'>
-            <Box padding='5px'>
+          <Box display='flex' key={x.id}>
+            <Box padding='5px 0 5px 5px'>
               <Checkbox
                 value={selectedIds.includes(x.id)}
                 onChange={(_, value) => handleSelected(value, x.id)}
@@ -67,10 +68,10 @@ const MajitelList = () => {
 
             <Box width='100%'>
               <Link to={`/majitelia/${x.id}`}>
-                <MenuItem key={x.id}>
+                <MenuItem>
                   <Avatar />
 
-                  <Box padding='10px 13px'>{x.meno + ' ' + x.priezvisko}</Box>
+                  <Box padding='10px'>{x.meno + ' ' + x.priezvisko}</Box>
 
                   <Box marginLeft='auto'>
                     <KeyboardArrowRight />
@@ -84,11 +85,11 @@ const MajitelList = () => {
 
       <Box display='flex' flexDirection='row-reverse' marginTop='30px'>
         <Button variant='contained' color='secondary' disabled={!selectedIds.length}>
-          Zobrazit statistiky
+          Zobrazit informacie
         </Button>
       </Box>
     </Container>
   )
 }
 
-export default MajitelList
+export default Majitelia
