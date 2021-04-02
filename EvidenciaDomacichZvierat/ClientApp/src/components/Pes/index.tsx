@@ -5,7 +5,7 @@ import { Box, Button, Card, CardActions, CardContent, Dialog, MenuItem } from '@
 
 import { IPes } from '../../types'
 import NameValueRow from '../NameValueRow'
-import { getFormattedAge } from '../utils/utils'
+import { getFormattedAge } from '../../utils/utils'
 
 interface IProps {
   data: IPes
