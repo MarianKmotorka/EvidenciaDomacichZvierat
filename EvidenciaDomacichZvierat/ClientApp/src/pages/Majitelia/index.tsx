@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 
 import useFetch from '../../hooks/useFetch'
-import MajitelStatisticsDialog from '../../components/MajitelStatisticsDialog'
+import MajitelStatisticsDialog from './MajitelStatisticsDialog'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

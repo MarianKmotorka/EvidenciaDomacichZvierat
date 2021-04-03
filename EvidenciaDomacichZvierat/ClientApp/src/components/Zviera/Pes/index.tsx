@@ -3,16 +3,16 @@ import moment from 'moment'
 import { Fastfood, Pets } from '@material-ui/icons'
 import { Box, Button, Card, CardActions, CardContent, Dialog, MenuItem } from '@material-ui/core'
 
-import { IMacka } from '../../types'
-import NameValueRow from '../NameValueRow'
-import { getFormattedAge } from '../../utils/utils'
+import { IPes } from '../../../types'
+import NameValueRow from '../../NameValueRow'
+import { getFormattedAge } from '../../../utils'
 
 interface IProps {
-  data: IMacka
+  data: IPes
   onNakrmit: (zvieraId: number) => Promise<void>
 }
 
-const Macka = memo(({ data, onNakrmit }: IProps) => {
+const Pes = memo(({ data, onNakrmit }: IProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -21,11 +21,11 @@ const Macka = memo(({ data, onNakrmit }: IProps) => {
         <MenuItem onClick={() => setOpen(true)}>
           <CardContent>
             <Box display='flex' alignItems='center' gridGap='10px'>
-              <Pets color='secondary' />
+              <Pets color='primary' />
               <h4>{data.meno}</h4>
             </Box>
 
-            <p>(Macka)</p>
+            <p>(Pes)</p>
           </CardContent>
         </MenuItem>
       </Card>
@@ -39,14 +39,15 @@ const Macka = memo(({ data, onNakrmit }: IProps) => {
               name='Datum narodenia'
               value={moment(data.datumNarodenia).format('DD.MM.YYYY')}
             />
-            <NameValueRow name='Chyta mysi' value={data.chytaMysi ? 'Ano' : 'Nie'} />
+            <NameValueRow name='Predpokladany vzrast' value={data.predpokladanyVzrastCm + 'cm'} />
+            <NameValueRow name='Uroven vycviku' value={data.urovenVycviku + '/10'} />
             <NameValueRow name='Pocet krmeni' value={data.pocetKrmeni} />
 
             <CardActions>
               <Button
-                variant='contained'
-                color='secondary'
                 startIcon={<Fastfood />}
+                variant='contained'
+                color='primary'
                 onClick={async () => await onNakrmit(data.id)}
               >
                 Nakrmit
@@ -59,4 +60,4 @@ const Macka = memo(({ data, onNakrmit }: IProps) => {
   )
 })
 
-export default Macka
+export default Pes

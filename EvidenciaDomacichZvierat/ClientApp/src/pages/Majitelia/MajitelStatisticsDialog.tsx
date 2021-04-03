@@ -1,6 +1,6 @@
 import { CardContent, CircularProgress, Dialog } from '@material-ui/core'
 import useFetch from '../../hooks/useFetch'
-import NameValueRow from '../NameValueRow'
+import NameValueRow from '../../components/NameValueRow'
 
 interface IProps {
   majitelIds: number[]
