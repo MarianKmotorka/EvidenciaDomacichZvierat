@@ -29,7 +29,7 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
 
                 return new()
                 {
-                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvieratNaMajitela(request.Ids),
+                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvieratOdMajitelov(request.Ids),
                     PocetZvieratOdMajitelov = await _majitelRepository.GetPocetZvieratOdMajitelov(request.Ids),
                     PriemernyPocetZvieratNaMajitela = await _majitelRepository.GetPriemernyPocetZvieratNaMajitela(request.Ids),
                 };

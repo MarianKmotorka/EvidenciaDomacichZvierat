@@ -34,7 +34,7 @@ namespace EvidenciaDomacichZvierat.Data
             return result;
         }
 
-        public async Task<double> GetPriemernyVekZvieratNaMajitela(params int[] majitelIds)
+        public async Task<double> GetPriemernyVekZvieratOdMajitelov(params int[] majitelIds)
         {
             var sqlTemplate = @"SELECT AVG(Cast(Datediff(""yyyy"", z.DatumNarodenia, getdate()) as Float)) FROM Zviera z 
                                 JOIN MajitelZviera mz ON mz.ZvieraId = z.Id
