@@ -46,8 +46,8 @@ const Macka = memo(({ data, onNakrmit }: IProps) => {
               <Button
                 variant='contained'
                 color='secondary'
-                onClick={() => onNakrmit(data.id)}
                 startIcon={<Fastfood />}
+                onClick={async () => await onNakrmit(data.id)}
               >
                 Nakrmit
               </Button>

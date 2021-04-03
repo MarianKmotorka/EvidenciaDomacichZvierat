@@ -9,7 +9,7 @@ interface IProps {
 
 interface IMajitelStatistics {
   priemernyPocetZvieratNaMajitela: number
-  priemernyVekZvieratNaMajitela: number
+  priemernyVekZvierat: number
   pocetZvieratOdMajitelov: number
 }
 
@@ -20,30 +20,42 @@ const MajitelStatisticsDialog = ({ majitelIds, onClose }: IProps) => {
     body: { ids: majitelIds }
   })
 
+  if (loading)
+    return (
+      <Dialog open onClose={onClose}>
+        <CardContent>
+          <CircularProgress />
+        </CardContent>
+      </Dialog>
+    )
+
+  if (error)
+    return (
+      <Dialog open onClose={onClose}>
+        <CardContent>
+          <p>Error</p>
+        </CardContent>
+      </Dialog>
+    )
+
+  const { pocetZvieratOdMajitelov, priemernyVekZvierat, priemernyPocetZvieratNaMajitela } = data!
+
   return (
     <Dialog open onClose={onClose}>
       <CardContent>
-        {loading && <CircularProgress />}
+        <NameValueRow name='Pocet oznacenych majitelov' value={majitelIds.length} />
 
-        {error && <p>ERROR</p>}
+        <NameValueRow
+          name='Priemerny vek zvierat'
+          value={`${priemernyVekZvierat.toFixed(1)} rokov`}
+        />
 
-        {!loading && !error && (
-          <>
-            <NameValueRow name='Pocet oznacenych majitelov' value={majitelIds.length} />
+        <NameValueRow
+          name='Priemerny pocet zvierat na majitela'
+          value={priemernyPocetZvieratNaMajitela.toFixed(1)}
+        />
 
-            <NameValueRow
-              name='Priemerny pocet zvierat na majitela'
-              value={data!.priemernyPocetZvieratNaMajitela.toFixed(1)}
-            />
-
-            <NameValueRow
-              name='Priemerny vek zvierat na majitela'
-              value={data!.priemernyVekZvieratNaMajitela.toFixed(1)}
-            />
-
-            <NameValueRow name='Pocet zvierat od majitelov' value={data!.pocetZvieratOdMajitelov} />
-          </>
-        )}
+        <NameValueRow name='Pocet zvierat od majitelov' value={pocetZvieratOdMajitelov} />
       </CardContent>
     </Dialog>
   )

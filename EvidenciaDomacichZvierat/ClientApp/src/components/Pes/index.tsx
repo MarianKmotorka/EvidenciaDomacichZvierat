@@ -48,7 +48,7 @@ const Pes = memo(({ data, onNakrmit }: IProps) => {
                 startIcon={<Fastfood />}
                 variant='contained'
                 color='primary'
-                onClick={() => onNakrmit(data.id)}
+                onClick={async () => await onNakrmit(data.id)}
               >
                 Nakrmit
               </Button>

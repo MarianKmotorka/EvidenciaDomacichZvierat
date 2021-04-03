@@ -29,9 +29,9 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
 
                 return new()
                 {
+                    PriemernyVekZvierat = await _majitelRepository.GetPriemernyVekZvieratNaMajitela(request.Ids),
+                    PocetZvieratOdMajitelov = await _majitelRepository.GetPocetZvieratOdMajitelov(request.Ids),
                     PriemernyPocetZvieratNaMajitela = await _majitelRepository.GetPriemernyPocetZvieratNaMajitela(request.Ids),
-                    PriemernyVekZvieratNaMajitela = await _majitelRepository.GetPriemernyVekZvieratNaMajitela(request.Ids),
-                    PocetZvieratOdMajitelov = await _majitelRepository.GetPocetZvieratOdMajitelov(request.Ids)
                 };
             }
         }
@@ -40,7 +40,7 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
         {
             public double PriemernyPocetZvieratNaMajitela { get; set; }
 
-            public double PriemernyVekZvieratNaMajitela { get; set; }
+            public double PriemernyVekZvierat { get; set; }
 
             public double PocetZvieratOdMajitelov { get; set; }
         }
