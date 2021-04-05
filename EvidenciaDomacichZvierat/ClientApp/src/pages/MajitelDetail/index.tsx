@@ -12,11 +12,13 @@ import { IMajitelDetail, ZvieraEnum } from '../../types'
 
 const MajitelDetail = () => {
   const { id } = useParams<{ id: string }>()
-  const { data, loading, error, setData } = useFetch<IMajitelDetail>({ url: `/api/majitel/${id}` })
+  const { data, loading, error, setData } = useFetch<IMajitelDetail>({
+    url: `/api/majitelia/${id}`
+  })
 
   const handleNakrmit = useCallback(
     async (zvieraId: number) => {
-      const response = await fetch(`/api/zviera/${zvieraId}/nakrmit`, { method: 'POST' })
+      const response = await fetch(`/api/zvierata/${zvieraId}/nakrmit`, { method: 'POST' })
       if (!response.ok) return // Show error toast
 
       setData(prev => {
@@ -34,7 +36,7 @@ const MajitelDetail = () => {
   )
 
   if (loading) return <CircularProgress color='secondary' />
-  if (error) return <h2>Error</h2>
+  if (error) return <h2>{error.message}</h2>
 
   const majitel = data!
 

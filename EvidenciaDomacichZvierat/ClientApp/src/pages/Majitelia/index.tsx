@@ -36,7 +36,7 @@ interface IMajitel {
 }
 
 const Majitelia = () => {
-  const { data, loading, error } = useFetch<IMajitel[]>({ url: '/api/majitel' })
+  const { data, loading, error } = useFetch<IMajitel[]>({ url: '/api/majitelia' })
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [statisticsOpen, setStatisticsOpen] = useState(false)
   const styles = useStyles()

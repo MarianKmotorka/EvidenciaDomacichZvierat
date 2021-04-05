@@ -15,7 +15,7 @@ interface IMajitelStatistics {
 
 const MajitelStatisticsDialog = ({ majitelIds, onClose }: IProps) => {
   const { data, loading, error } = useFetch<IMajitelStatistics>({
-    url: '/api/majitel/statistics',
+    url: '/api/majitelia/statistics',
     method: 'POST',
     body: { ids: majitelIds }
   })

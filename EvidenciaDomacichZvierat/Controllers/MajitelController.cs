@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EvidenciaDomacichZvierat.Controllers
 {
-    [Route("api/majitel")]
+    [Route("api/majitelia")]
     public class MajitelController : BaseController
     {
         [HttpGet]

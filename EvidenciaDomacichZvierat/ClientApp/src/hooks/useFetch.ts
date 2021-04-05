@@ -6,10 +6,14 @@ interface IUseFetchParameters {
   body?: any
 }
 
+interface IApiError {
+  message: string
+}
+
 const useFetch = <T>({ url, method = 'GET', body }: IUseFetchParameters) => {
   const [data, setData] = useState<T>()
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<any>()
+  const [error, setError] = useState<IApiError>()
 
   const bodyString = JSON.stringify(body)
 

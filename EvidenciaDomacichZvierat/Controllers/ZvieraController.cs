@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EvidenciaDomacichZvierat.Controllers
 {
-    [Route("api/zviera")]
+    [Route("api/zvierata")]
     public class ZvieraController : BaseController
     {
         [HttpPost("{id}/nakrmit")]

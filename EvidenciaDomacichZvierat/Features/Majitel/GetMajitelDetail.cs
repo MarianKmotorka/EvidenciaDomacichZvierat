@@ -31,7 +31,7 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
                 var majitel = await _majitelRepository.GetById(request.Id);
 
                 if (majitel is null)
-                    throw new NotFoundException($"Majitel with Id of {{{request.Id}}} was not found.");
+                    throw new NotFoundException($"Majitel with Id equal to {request.Id} was not found.");
 
                 var dto = new MajitelDetailDto
                 {
@@ -57,7 +57,7 @@ namespace EvidenciaDomacichZvierat.Features.Majitel
                             PredpokladanyVzrastCm = ((Pes)zviera).PredpokladanyVzrastCm,
                             Type = type
                         });
-                    else
+                    else if (type == ZvieraEnum.Macka)
                         dto.Zvierata.Add(new ZvieraDto
                         {
                             Id = zviera.Id,
